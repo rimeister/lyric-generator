@@ -37,11 +37,11 @@ void setup() {
 }
 
 void draw() {
+	// Set background
 	background(255);
 	fill(0);
 
-	//text(myText, 15, 15, 200, height);	
-
+	// Draw dividing line
  	stroke(175);
  	line(230,0,230,height);
 
