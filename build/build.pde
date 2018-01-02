@@ -11,7 +11,7 @@ void setup() {
 	textSize(12);
 	fill(0);
 	cp5 = new ControlP5(this);
-
+/*
  	inputTextArea = cp5
  		.addTextarea("txt")
 		.setPosition(15,15)
@@ -22,7 +22,14 @@ void setup() {
 		.setColorBackground(color(255,100))
 		.setColorForeground(color(255,100));
 	;
+*/
 
+	 cp5.addTextfield("a")
+	 	.setPosition(400,400)
+	 	.setSize(100,50)
+	 	.setAutoClear(false)
+	 ;
+/*
 	inputTextArea.setText("Lorem Ipsum is simply dummy text of the printing and typesetting"
 	    +" industry. Lorem Ipsum has been the industry's standard dummy text"
 	    +" ever since the 1500s, when an unknown printer took a galley of type"
@@ -33,7 +40,7 @@ void setup() {
 	    +" and more recently with desktop publishing software like Aldus"
 	    +" PageMaker including versions of Lorem Ipsum."
 	);
-
+*/
 }
 
 void draw() {
