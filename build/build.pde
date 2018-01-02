@@ -1,9 +1,8 @@
-import controlP5.*;
+import g4p_controls.*;
 import rita.*;
 
-ControlP5 cp5;
-Textarea inputTextArea;
-Button submitBtn;
+GTextArea inputTextArea;
+//Button submitBtn;
 PFont arialFont;
 String inputText;
 
@@ -13,19 +12,20 @@ void setup() {
 	textAlign(LEFT, TOP);
 	textSize(12);
 	fill(0);
-	cp5 = new ControlP5(this);
 	arialFont = createFont("arial",12);
 
-	inputTextArea = cp5
-	 	.addTextarea("inputTxtArea")
-	 	.setPosition(15,15)
-	 	.setSize(230, (height - 100) )
-	 	.setFont(arialFont)
-	 	.setLineHeight(14)
-	 	.setColor(0)
-	 	.setColorBackground(color(255,100))
-	 	.setColorForeground(color(255,100))
-	;
+	// inputTextArea = cp5
+	//  	.addTextArea("inputTxtArea")
+	//  	.setPosition(15,15)
+	//  	.setSize(230, (height - 100) )
+	//  	.setFont(arialFont)
+	//  	//.setLineHeight(14)
+	//  	.setColor(0)
+	//  	.setColorBackground(color(255,100))
+	//  	.setColorForeground(color(255,100))
+	// ;
+
+	inputTextArea = new GTextArea(this, 15, 15, 230, 400, G4P.SCROLLBARS_VERTICAL_ONLY | G4P.SCROLLBARS_AUTOHIDE);
 
 	inputTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
 		+"Donec placerat risus vitae mi pharetra tempus. Nullam feugiat facilisis iaculis. "
@@ -47,14 +47,14 @@ void setup() {
 		+"ornare. "
 	);
 
-	submitBtn = cp5
-		.addButton("generateLyrics")
-		.setCaptionLabel("Generate Lyrics")
-	 	.setFont(arialFont)
-		.setPosition(15, 425)
-		.setSize(150,30)
-		.setColorBackground(color(#53525b))
-	;
+	// submitBtn = cp5
+	// 	.addButton("generateLyrics")
+	// 	.setCaptionLabel("Generate Lyrics")
+	//  	.setFont(arialFont)
+	// 	.setPosition(15, 425)
+	// 	.setSize(150,30)
+	// 	.setColorBackground(color(#53525b))
+	// ;
 
 }
 
@@ -69,8 +69,8 @@ void draw() {
  	line(260,0,260,height);
 
 }
-void generateLyrics(){
-	inputText = inputTextArea.getText();
-	print("The text you typed is :");
-	print(inputText);
-}
+// void generateLyrics(){
+// 	inputText = inputTextArea.getText();
+// 	print("The text you typed is :");
+// 	print(inputText);
+// }
