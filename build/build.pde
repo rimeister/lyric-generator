@@ -2,10 +2,13 @@ import g4p_controls.*;
 import rita.*;
 
 GTextArea inputTextArea;
+GTextArea outputTextArea;
 GButton generateLyricsBtn;
 GButton clearBtn;
 PFont arialFont;
 String inputText;
+String generatedLyrics;
+RiString rInputText;
 
 void setup() {
 
@@ -15,6 +18,7 @@ void setup() {
 	textAlign(LEFT, TOP);
 	textSize(12);
 	fill(0);
+	noStroke();
 	arialFont = createFont("arial",12);
 
 	inputTextArea = new GTextArea(this, 15, 15, 230, 400, G4P.SCROLLBARS_VERTICAL_ONLY | G4P.SCROLLBARS_AUTOHIDE);
@@ -43,6 +47,7 @@ void setup() {
 	generateLyricsBtn = new GButton(this, 15, 425, 150, 30, "Generate Lyrics");
 	clearBtn = new GButton(this, 15, 455, 150, 30, "Clear");
 
+	outputTextArea = new GTextArea(this, 275, 15, 725, height, G4P.SCROLLBARS_VERTICAL_ONLY | G4P.SCROLLBARS_AUTOHIDE);
 }
 
 void draw() {
@@ -71,6 +76,7 @@ void handleButtonEvents(GButton button, GEvent event){
 
 void generateLyrics(){
 	inputText = inputTextArea.getText();
-	print("The text you typed is :");
-	print(inputText);
+	rInputText = new RiString(inputText);
+	generatedLyrics = rInputText.get("syllables");
+	outputTextArea.setText(generatedLyrics);
 }
