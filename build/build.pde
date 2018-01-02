@@ -9,6 +9,8 @@ String inputText;
 
 void setup() {
 
+	//GCScheme.changePaletteColor(8, 8, color(0, 0, 255));
+	G4P.setGlobalColorScheme(8);
 	size(1000, 500);
 	textAlign(LEFT, TOP);
 	textSize(12);
