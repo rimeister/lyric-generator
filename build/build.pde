@@ -2,7 +2,9 @@ import controlP5.*;
 import rita.*;
 
 ControlP5 cp5;
-Textarea inputTextArea; 
+Textarea inputTextArea;
+Button submitBtn;
+PFont arialFont;
 
 void setup() {
 
@@ -11,12 +13,13 @@ void setup() {
 	textSize(12);
 	fill(0);
 	cp5 = new ControlP5(this);
+	arialFont = createFont("arial",12);
 
 	inputTextArea = cp5
 	 	.addTextarea("inputTxt")
 	 	.setPosition(15,15)
-	 	.setSize(230,height)
-	 	.setFont(createFont("arial",12))
+	 	.setSize(230, (height - 100) )
+	 	.setFont(arialFont)
 	 	.setLineHeight(14)
 	 	.setColor(0)
 	 	.setColorBackground(color(255,100))
@@ -34,6 +37,14 @@ void setup() {
 	    +" PageMaker including versions of Lorem Ipsum."
 	);
 
+	submitBtn = cp5
+		.addButton("Generate Lyrics")
+	 	.setFont(arialFont)
+		.setPosition(15, 425)
+		.setSize(150,30)
+		.setColorBackground(color(#53525b))
+	;
+
 }
 
 void draw() {
@@ -44,6 +55,6 @@ void draw() {
 
 	// Draw dividing line
  	stroke(175);
- 	line(230,0,230,height);
+ 	line(245,0,245,height);
 
 }
