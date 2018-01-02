@@ -26,15 +26,23 @@ void setup() {
 	 	.setColorForeground(color(255,100))
 	;
 
-	inputTextArea.setText("Lorem Ipsum is simply dummy text of the printing and typesetting"
-	    +" industry. Lorem Ipsum has been the industry's standard dummy text"
-	    +" ever since the 1500s, when an unknown printer took a galley of type"
-	    +" and scrambled it to make a type specimen book. It has survived not"
-	    +" only five centuries, but also the leap into electronic typesetting,"
-	    +" remaining essentially unchanged. It was popularised in the 1960s"
-	    +" with the release of Letraset sheets containing Lorem Ipsum passages,"
-	    +" and more recently with desktop publishing software like Aldus"
-	    +" PageMaker including versions of Lorem Ipsum."
+	inputTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+		+"Donec placerat risus vitae mi pharetra tempus. Nullam feugiat facilisis iaculis. "
+		+"In cursus nulla augue, quis bibendum nibh finibus rhoncus. Aenean sit amet feugiat "
+		+"nunc. Sed quis suscipit lacus. Ut venenatis ipsum lectus, eu interdum lorem varius "
+		+"eget. Nulla facilisi. Ut ultricies, lectus et venenatis iaculis, risus ex placerat "
+		+"risus, vel viverra tortor erat ac quam. Sed porttitor tortor cursus, porta neque nec, "
+		+"consequat lacus. Vestibulum varius quam ut turpis venenatis, vel dictum eros suscipit. "
+		+"Integer ac leo pretium, fermentum nisl vel, dapibus felis. Duis quis justo ut diam viverra "
+		+"tempor. Aliquam vehicula ultrices purus, vitae pulvinar mauris sollicitudin eu. Aenean "
+		+"elementum ipsum quis eros lacinia vestibulum. Ut dignissim tellus a dui bibendum faucibus. "
+		+"Sed vitae eros ac lorem elementum pretium at et lectus."
+		+"\n"
+		+"Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; "
+		+"Fusce venenatis ultrices egestas. Nulla facilisi. Sed egestas lacinia sodales. Etiam mollis "
+		+"tellus at sem finibus rutrum. Mauris efficitur sem vel felis vehicula, ut consectetur nisi "
+		+"placerat. Fusce interdum augue non volutpat maximus. Phasellus feugiat sollicitudin neque vel "
+		+"ornare. "
 	);
 
 	submitBtn = cp5
@@ -55,6 +63,6 @@ void draw() {
 
 	// Draw dividing line
  	stroke(175);
- 	line(245,0,245,height);
+ 	line(260,0,260,height);
 
 }
