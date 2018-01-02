@@ -58,7 +58,7 @@ void draw() {
 void handleButtonEvents(GButton button, GEvent event){
 
 	if (button == generateLyricsBtn) {
-		print("it's the gen lyrics button");		
+		generateLyrics();		
 	}
 
 	else if (button == clearBtn) {
@@ -67,8 +67,8 @@ void handleButtonEvents(GButton button, GEvent event){
 
 }
 
-// void generateLyrics(){
-// 	inputText = inputTextArea.getText();
-// 	print("The text you typed is :");
-// 	print(inputText);
-// }
+void generateLyrics(){
+	inputText = inputTextArea.getText();
+	print("The text you typed is :");
+	print(inputText);
+}
