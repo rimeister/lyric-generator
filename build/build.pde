@@ -14,10 +14,11 @@ void setup() {
 
 	inputTextArea = cp5
 	 	.addTextarea("inputTxt")
-	 	.setPosition(400,400)
-	 	.setSize(100,50)
+	 	.setPosition(15,15)
+	 	.setSize(230,height)
 	 	.setFont(createFont("arial",12))
-	 	.setColor(255)
+	 	.setLineHeight(14)
+	 	.setColor(0)
 	 	.setColorBackground(color(255,100))
 	 	.setColorForeground(color(255,100))
 	;
