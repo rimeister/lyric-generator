@@ -3,6 +3,7 @@ import rita.*;
 
 GTextArea inputTextArea;
 GButton generateLyricsBtn;
+GButton clearBtn;
 PFont arialFont;
 String inputText;
 
@@ -38,6 +39,7 @@ void setup() {
 
 	// generateLyricsBtn bg color: #53525b
 	generateLyricsBtn = new GButton(this, 15, 425, 150, 30, "Generate Lyrics");
+	clearBtn = new GButton(this, 15, 455, 150, 30, "Clear");
 
 }
 
@@ -52,6 +54,19 @@ void draw() {
  	line(260,0,260,height);
 
 }
+
+void handleButtonEvents(GButton button, GEvent event){
+
+	if (button == generateLyricsBtn) {
+		print("it's the gen lyrics button");		
+	}
+
+	else if (button == clearBtn) {
+		print("it's the clear button");				
+	}
+
+}
+
 // void generateLyrics(){
 // 	inputText = inputTextArea.getText();
 // 	print("The text you typed is :");
