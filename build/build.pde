@@ -46,7 +46,8 @@ void setup() {
 	);
 
 	submitBtn = cp5
-		.addButton("Generate Lyrics")
+		.addButton("generateLyrics")
+		.setCaptionLabel("Generate Lyrics")
 	 	.setFont(arialFont)
 		.setPosition(15, 425)
 		.setSize(150,30)
@@ -65,4 +66,7 @@ void draw() {
  	stroke(175);
  	line(260,0,260,height);
 
+}
+void generateLyrics(){
+	print("Hello");
 }
