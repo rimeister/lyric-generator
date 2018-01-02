@@ -69,7 +69,7 @@ void handleButtonEvents(GButton button, GEvent event){
 	}
 
 	else if (button == clearBtn) {
-		print("it's the clear button");				
+		outputTextArea.setText("");
 	}
 
 }
