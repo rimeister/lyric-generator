@@ -2,7 +2,7 @@ import controlP5.*;
 import rita.*;
 
 ControlP5 cp5;
-Textarea inputTextArea; 
+Textfield inputTextfield; 
 String myText = "Input text goes here";
 
 void setup() {
@@ -24,10 +24,15 @@ void setup() {
 	;
 */
 
-	 cp5.addTextfield("a")
+	 inputTextfield = cp5
+	 	.addTextfield("inputTxt")
 	 	.setPosition(400,400)
 	 	.setSize(100,50)
 	 	.setAutoClear(false)
+	 	.setFont(createFont("arial",12))
+	 	//.setLineHeight(14)
+	 	.setColor(255)
+	 	.setColorBackground(color(255,100))
 	 ;
 /*
 	inputTextArea.setText("Lorem Ipsum is simply dummy text of the printing and typesetting"
@@ -51,19 +56,19 @@ void draw() {
 	// Draw dividing line
  	stroke(175);
  	line(230,0,230,height);
-
+/*
 	if(keyPressed && key==' ') {
-		inputTextArea.scroll((float)mouseX/(float)width);
+		inputTextfield.scroll((float)mouseX/(float)width);
 	}
 	if(keyPressed && key=='l') {
-		inputTextArea.setLineHeight(mouseY);
+		inputTextfield.setLineHeight(mouseY);
 	}
-
+*/
 }
-
+/*
 void keyPressed() {
   if(key=='r') {
-    inputTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    inputTextfield.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 		+" Quisque sed velit nec eros scelerisque adipiscing vitae eu sem."
 		+" Quisque malesuada interdum lectus. Pellentesque pellentesque molestie"
 		+" vestibulum. Maecenas ultricies, neque at porttitor lacinia, tellus enim"
@@ -78,6 +83,7 @@ void keyPressed() {
 	);
                       
   } else if(key=='c') {
-    inputTextArea.setColor(0xffffffff);
+    inputTextfield.setColor(0xffffffff);
   }
 }
+*/
