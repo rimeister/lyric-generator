@@ -19,7 +19,8 @@ void setup() {
 	 	.setFont(createFont("arial",12))
 	 	.setColor(255)
 	 	.setColorBackground(color(255,100))
-	 ;
+	 	.setColorForeground(color(255,100))
+	;
 
 }
 
