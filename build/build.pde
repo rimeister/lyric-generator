@@ -2,7 +2,7 @@ import g4p_controls.*;
 import rita.*;
 
 GTextArea inputTextArea;
-//Button submitBtn;
+GButton generateLyricsBtn;
 PFont arialFont;
 String inputText;
 
@@ -13,17 +13,6 @@ void setup() {
 	textSize(12);
 	fill(0);
 	arialFont = createFont("arial",12);
-
-	// inputTextArea = cp5
-	//  	.addTextArea("inputTxtArea")
-	//  	.setPosition(15,15)
-	//  	.setSize(230, (height - 100) )
-	//  	.setFont(arialFont)
-	//  	//.setLineHeight(14)
-	//  	.setColor(0)
-	//  	.setColorBackground(color(255,100))
-	//  	.setColorForeground(color(255,100))
-	// ;
 
 	inputTextArea = new GTextArea(this, 15, 15, 230, 400, G4P.SCROLLBARS_VERTICAL_ONLY | G4P.SCROLLBARS_AUTOHIDE);
 
@@ -47,14 +36,8 @@ void setup() {
 		+"ornare. "
 	);
 
-	// submitBtn = cp5
-	// 	.addButton("generateLyrics")
-	// 	.setCaptionLabel("Generate Lyrics")
-	//  	.setFont(arialFont)
-	// 	.setPosition(15, 425)
-	// 	.setSize(150,30)
-	// 	.setColorBackground(color(#53525b))
-	// ;
+	// generateLyricsBtn bg color: #53525b
+	generateLyricsBtn = new GButton(this, 15, 425, 150, 30, "Generate Lyrics");
 
 }
 
