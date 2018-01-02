@@ -5,6 +5,7 @@ ControlP5 cp5;
 Textarea inputTextArea;
 Button submitBtn;
 PFont arialFont;
+String inputText;
 
 void setup() {
 
@@ -16,7 +17,7 @@ void setup() {
 	arialFont = createFont("arial",12);
 
 	inputTextArea = cp5
-	 	.addTextarea("inputTxt")
+	 	.addTextarea("inputTxtArea")
 	 	.setPosition(15,15)
 	 	.setSize(230, (height - 100) )
 	 	.setFont(arialFont)
@@ -68,5 +69,7 @@ void draw() {
 
 }
 void generateLyrics(){
-	print("Hello");
+	inputText = inputTextArea.getText();
+	print("The text you typed is :");
+	print(inputText);
 }
