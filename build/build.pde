@@ -17,11 +17,11 @@ class Word {
 
 	// Word object has a value (the word itself), and number of syllables
 	String value;
-	int numSyllables;
+	int syllableCount;
 
-	Word(String tempValue, int tempNumSyllables) {
+	Word(String tempValue, int tempSyllableCount) {
 		value = tempValue;
-		numSyllables = tempNumSyllables;
+		syllableCount = tempSyllableCount;
 	}
 
 }
@@ -121,6 +121,7 @@ void generateLyrics(){
 		append(wordsArray,currentWord);
 
 		println(currentWord.value);
+		println(currentWord.syllableCount);
 
 	}
 
