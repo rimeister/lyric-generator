@@ -13,6 +13,19 @@ int numberOfStanzas = 4;
 int numberOfLinesPerStanza = 4;
 int numberOfSyllablesPerLine = 4;
 
+class Word {
+
+	// Word object has a value (the word itself), and number of syllables
+	String value;
+	int numSyllables;
+
+	Word() {
+		value = "";
+		numSyllables = 0;
+	}
+
+}
+
 void setup() {
 
 	//GCScheme.changePaletteColor(8, 8, color(0, 0, 255));
@@ -80,6 +93,8 @@ void handleButtonEvents(GButton button, GEvent event){
 void generateLyrics(){
 
 	String[] wordsFromInput = new String[0];
+	Word[] wordsArray = new Word[0];
+
 
 	// Get text from text area
 	inputText = inputTextArea.getText();
@@ -93,7 +108,7 @@ void generateLyrics(){
 	// Get the number of words in the array
 	int numberOfWords = wordsFromInput.length;
 
-	for (int i = 0; i < numberOfStanzas) {
+	for (int i = 0; i < numberOfStanzas; i++) {
 
 		String currentStanza;
 
