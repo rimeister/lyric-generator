@@ -125,6 +125,7 @@ void generateLyrics(){
 
 	}
 
+	// Generate stanzas by iterating over the array of Words
 	for (int i = 0; i < numberOfStanzas; i++) {
 
 		String currentStanza;
@@ -136,16 +137,22 @@ void generateLyrics(){
 
 			while (j > 0) {
 
-
-
+				// Next step: randomly get a word from the array that has a syllableCount of less than or equal to "j" ( same as numberOfSyllablesPerLine -- 4, in this case)
+				// Add that word to currentLine var using += operator
+				// Reduce j var by number of syllables in the word added to line
+				// Find a new random word from the array with a syllableCount of less than or equal to what ever "j" is currently worth
+				// Repeat until J = 0
 			}
+
+			// Add "\n" to end of current line using "currentLine += '\n' "
 
 		}
 
+		// Add "\n" to end of current stanza using "currentStanza += '\n' "
+		// Add currentStanza to var generatedLyrics
+		// Generated lyrics are now complete
+
 	}
-
-
-//	generatedLyrics = rInputText.get("syllables");
 
 	//print();
 
