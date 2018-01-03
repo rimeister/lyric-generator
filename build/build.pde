@@ -19,9 +19,9 @@ class Word {
 	String value;
 	int numSyllables;
 
-	Word() {
-		value = "";
-		numSyllables = 0;
+	Word(String tempValue, int tempNumSyllables) {
+		value = tempValue;
+		numSyllables = tempNumSyllables;
 	}
 
 }
@@ -108,6 +108,22 @@ void generateLyrics(){
 	// Get the number of words in the array
 	int numberOfWords = wordsFromInput.length;
 
+	// Put create a Word object for each word, put it into the wordsArray
+	for (int y = 0; y < numberOfWords; y++) {
+
+		String currentWordValue = wordsFromInput[y];
+		String currentWordSyllables = RiTa.getSyllables(currentWordValue);
+		String[] currentSyllablesArray = split(currentWordSyllables,"/");
+		int currentWordSyllablesCount = currentSyllablesArray.length;
+
+		Word currentWord = new Word(currentWordValue,currentWordSyllablesCount);
+
+		append(wordsArray,currentWord);
+
+		println(currentWord.value);
+
+	}
+
 	for (int i = 0; i < numberOfStanzas; i++) {
 
 		String currentStanza;
@@ -130,7 +146,7 @@ void generateLyrics(){
 
 //	generatedLyrics = rInputText.get("syllables");
 
-	print();
+	//print();
 
 	outputTextArea.setText(generatedLyrics);
 }
