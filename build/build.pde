@@ -9,6 +9,9 @@ PFont arialFont;
 String inputText;
 String generatedLyrics;
 RiString rInputText;
+int numberOfStanzas = 4;
+int numberOfLinesPerStanza;
+int numberOfSyllablesPerLine;
 
 void setup() {
 
@@ -75,8 +78,30 @@ void handleButtonEvents(GButton button, GEvent event){
 }
 
 void generateLyrics(){
+
 	inputText = inputTextArea.getText();
 	rInputText = new RiString(inputText);
-	generatedLyrics = rInputText.get("syllables");
+
+	for (int i = 0; i < numberOfStanzas) {
+
+		String currentStanza;
+
+		for (int x = 0; x < numberOfLinesPerStanza; x++) {
+
+			String currentLine;
+			int j = numberOfSyllablesPerLine;
+
+			while (j > 0) {
+
+			}
+
+		}
+
+	}
+
+//	generatedLyrics = rInputText.get("syllables");
+
+
+
 	outputTextArea.setText(generatedLyrics);
 }
