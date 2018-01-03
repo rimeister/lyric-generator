@@ -79,11 +79,19 @@ void handleButtonEvents(GButton button, GEvent event){
 
 void generateLyrics(){
 
-	inputText = inputTextArea.getText();
-	rInputText = new RiString(inputText);
-	//int numberOfWords = 
 	String[] wordsFromInput = new String[0];
+
+	// Get text from text area
+	inputText = inputTextArea.getText();
+
+	// Convert that text to a RiTa string
+	rInputText = new RiString(inputText);
+
+	// Put the words into an array
 	wordsFromInput = rInputText.words();
+
+	// Get the number of words in the array
+	int numberOfWords = wordsFromInput.length;
 
 	for (int i = 0; i < numberOfStanzas) {
 
@@ -96,7 +104,7 @@ void generateLyrics(){
 
 			while (j > 0) {
 
-				
+
 
 			}
 
@@ -104,11 +112,10 @@ void generateLyrics(){
 
 	}
 
-	//String randWord = rInputText.length;
 
 //	generatedLyrics = rInputText.get("syllables");
 
-	print(wordsFromInput.length);
+	print();
 
 	outputTextArea.setText(generatedLyrics);
 }
