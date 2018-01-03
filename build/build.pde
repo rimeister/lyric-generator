@@ -10,8 +10,8 @@ String inputText;
 String generatedLyrics;
 RiString rInputText;
 int numberOfStanzas = 4;
-int numberOfLinesPerStanza;
-int numberOfSyllablesPerLine;
+int numberOfLinesPerStanza = 4;
+int numberOfSyllablesPerLine = 4;
 
 void setup() {
 
@@ -81,6 +81,9 @@ void generateLyrics(){
 
 	inputText = inputTextArea.getText();
 	rInputText = new RiString(inputText);
+	//int numberOfWords = 
+	String[] wordsFromInput = new String[0];
+	wordsFromInput = rInputText.words();
 
 	for (int i = 0; i < numberOfStanzas) {
 
@@ -93,15 +96,19 @@ void generateLyrics(){
 
 			while (j > 0) {
 
+				
+
 			}
 
 		}
 
 	}
 
+	//String randWord = rInputText.length;
+
 //	generatedLyrics = rInputText.get("syllables");
 
-
+	print(wordsFromInput.length);
 
 	outputTextArea.setText(generatedLyrics);
 }
