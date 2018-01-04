@@ -95,6 +95,7 @@ void generateLyrics(){
 	String[] wordsFromInput = new String[0];
 	Word[] wordsArray = new Word[0];
 
+	generatedLyrics = "";
 
 	// Get text from text area
 	inputText = inputTextArea.getText();
@@ -118,43 +119,69 @@ void generateLyrics(){
 
 		Word currentWord = new Word(currentWordValue,currentWordSyllablesCount);
 
-		append(wordsArray,currentWord);
-
-		println(currentWord.value);
-		println(currentWord.syllableCount);
-
+		wordsArray = (Word[]) append(wordsArray,currentWord);
+		
 	}
 
 	// Generate stanzas by iterating over the array of Words
 	for (int i = 0; i < numberOfStanzas; i++) {
 
-		String currentStanza;
+		String currentStanza = "";
 
 		for (int x = 0; x < numberOfLinesPerStanza; x++) {
 
-			String currentLine;
+			String currentLine = "";
 			int j = numberOfSyllablesPerLine;
 
 			while (j > 0) {
+
+				Word[] filterWordResults = new Word[0];
+				String wordToAdd;
+				int randomIndex;
+
+				for (Word word : wordsArray) {
+					
+					if (word.syllableCount <= j) {
+						filterWordResults = (Word[]) append(filterWordResults, word);
+					}
+
+				}
+
+				randomIndex = int( random(filterWordResults.length) );
+
+				if (currentLine != "") {
+					currentLine += " "; 					
+				}
+
+				currentLine += filterWordResults[randomIndex].value;
+
+				j -= filterWordResults[randomIndex].syllableCount;
 
 				// Next step: randomly get a word from the array that has a syllableCount of less than or equal to "j" ( same as numberOfSyllablesPerLine -- 4, in this case)
 				// Add that word to currentLine var using += operator
 				// Reduce j var by number of syllables in the word added to line
 				// Find a new random word from the array with a syllableCount of less than or equal to what ever "j" is currently worth
 				// Repeat until J = 0
+				
 			}
 
 			// Add "\n" to end of current line using "currentLine += '\n' "
+			currentLine += "\n";
+			currentStanza += currentLine;
 
 		}
 
 		// Add "\n" to end of current stanza using "currentStanza += '\n' "
 		// Add currentStanza to var generatedLyrics
 		// Generated lyrics are now complete
+		currentStanza += "\n\n";
+		generatedLyrics += currentStanza;
+
+		println(currentStanza);
 
 	}
 
-	//print();
+			//println(generatedLyrics);
 
 	outputTextArea.setText(generatedLyrics);
 }
