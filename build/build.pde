@@ -172,7 +172,7 @@ void generateLyrics(){
 
 		// Add "\n" to end of current stanza using "currentStanza += '\n' "
 		// Add currentStanza to var generatedLyrics
-		currentStanza += "\n\n";
+		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
 
 	}
