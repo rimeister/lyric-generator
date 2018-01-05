@@ -12,19 +12,53 @@ RiString rInputText;
 int numberOfLinesPerStanza = 4;
 int numberOfSyllablesPerLine = 4;
 boolean syllablesLeft;
+int[] syllableStressPattern = {1,0};
 
 class Word {
 
 	// Word object has a value (the word itself), and number of syllables
 	String value;
-	int syllableCount;
-	int id; 
+	int id;
 
-	Word(String tempValue, int tempSyllableCount, int tmpId) {
+	public Word(String tempValue, int tmpId) {
 		value = tempValue;
-		syllableCount = tempSyllableCount;
 		id = tmpId;
 	}
+
+	public int[] getSyllables() {
+
+		ArrayList<Integer> syllablesArrayList = new ArrayList<Integer>();
+
+		String currentWordStresses = RiTa.getStresses(value);
+
+		String[] currentSyllablesArray = split(currentWordStresses,"/");
+
+		int[] syllables = new int[currentSyllablesArray.length];
+
+		for (int i = 0; i < currentSyllablesArray.length; i++) {
+			//syllables[i] = Integer.parseInt(currentSyllablesArray[i]);
+		}
+
+		return syllables;
+
+
+	}
+
+	public int getSyllableCount() {
+
+		ArrayList<Integer> syllablesArrayList = new ArrayList<Integer>();
+
+		String currentWordSyllables = RiTa.getSyllables(value);
+
+		String[] currentSyllablesArray = split(currentWordSyllables,"/");
+
+		int syllableCount = currentSyllablesArray.length;
+		
+		return syllableCount;
+		
+	}
+
+
 
 }
 
@@ -98,12 +132,7 @@ void generateLyrics(){
 	for (int y = 0; y < numberOfWords; y++) {
 
 		String currentWordValue = wordsFromInput[y];
-		String currentWordSyllables = RiTa.getSyllables(currentWordValue);
-		String[] currentSyllablesArray = split(currentWordSyllables,"/");
-		int currentWordSyllablesCount = currentSyllablesArray.length;
-
-		Word currentWord = new Word(currentWordValue,currentWordSyllablesCount,y);
-
+		Word currentWord = new Word(currentWordValue,y);
 		wordsArray.add(currentWord);
 		
 	}
@@ -136,7 +165,7 @@ void generateLyrics(){
 
 				for (Word word : wordsArray) {
 					
-					if ( word.syllableCount <= j && !RiTa.isPunctuation(word.value) ) {
+					if ( word.getSyllableCount() <= j && !RiTa.isPunctuation(word.value) ) {
 						filterWordResults = (Word[]) append(filterWordResults, word);
 					}
 
@@ -152,7 +181,7 @@ void generateLyrics(){
 
 					currentLine += filterWordResults[randomIndex].value;
 
-					j -= filterWordResults[randomIndex].syllableCount;
+					j -= filterWordResults[randomIndex].getSyllableCount();
 
 					indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
 
@@ -201,5 +230,6 @@ int getIndexOfRemoved(ArrayList<Word> wordsToUpdate, Word selectedWord){
 	return indexVal;
 
 }
+
 // Ideas for next steps: Rhyme scheme. Evaluate if word at the end of a line rhymes with another word (from Array for Words). If there is at least one match, randomly choose one of the rhyming words, with the correct number of syllables. If not, randomly choose a word that rhymes and correct correct number of syllables from the dictionary/lexicon.
 // UI design: number of syllables per line, number of lines per stanza, rhyme scheme, perfect or imperect rhymes, meter (e.g., iambic)
