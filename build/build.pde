@@ -18,10 +18,12 @@ class Word {
 	// Word object has a value (the word itself), and number of syllables
 	String value;
 	int syllableCount;
+	int id; 
 
-	Word(String tempValue, int tempSyllableCount) {
+	Word(String tempValue, int tempSyllableCount, int tmpId) {
 		value = tempValue;
 		syllableCount = tempSyllableCount;
+		id = tmpId;
 	}
 
 }
@@ -117,7 +119,7 @@ void generateLyrics(){
 		String[] currentSyllablesArray = split(currentWordSyllables,"/");
 		int currentWordSyllablesCount = currentSyllablesArray.length;
 
-		Word currentWord = new Word(currentWordValue,currentWordSyllablesCount);
+		Word currentWord = new Word(currentWordValue,currentWordSyllablesCount,y);
 
 		wordsArray = (Word[]) append(wordsArray,currentWord);
 		
@@ -174,6 +176,10 @@ void generateLyrics(){
 		// Add currentStanza to var generatedLyrics
 		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
+
+		wordsArray = new Word[0];
+
+		//println(wordsArray);
 
 	}
 
