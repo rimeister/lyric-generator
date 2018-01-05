@@ -148,7 +148,7 @@ void generateLyrics(){
 
 				for (Word word : wordsArray) {
 					
-					if (word.syllableCount <= j) {
+					if ( word.syllableCount <= j && !RiTa.isPunctuation(word.value) ) {
 						filterWordResults = (Word[]) append(filterWordResults, word);
 					}
 
