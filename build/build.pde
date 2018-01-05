@@ -9,9 +9,9 @@ PFont arialFont;
 String inputText;
 String generatedLyrics;
 RiString rInputText;
-int numberOfStanzas = 4;
 int numberOfLinesPerStanza = 4;
 int numberOfSyllablesPerLine = 4;
+boolean syllablesLeft;
 
 class Word {
 
@@ -108,7 +108,11 @@ void generateLyrics(){
 		
 	}
 
-	//for (int i = 0; i < numberOfStanzas; i++) {
+	if (wordsArray.size() > 0) {
+		syllablesLeft = true;
+	}
+
+	do {
 
 		String currentStanza = "";
 
@@ -156,6 +160,7 @@ void generateLyrics(){
 
 				} else {
 
+					syllablesLeft = false;
 					break;
 
 				}
@@ -173,9 +178,8 @@ void generateLyrics(){
 		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
 
-		//println(wordsArray);
 
-	//}
+	} while (syllablesLeft); // End do-while loop
 
 	// Show Generated lyrics in output text box
 	outputTextArea.setText(generatedLyrics);
