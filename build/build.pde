@@ -25,7 +25,7 @@ class Word {
 		id = tmpId;
 	}
 
-	public int[] getSyllables() {
+	public int[] getSyllableStresses() {
 
 		ArrayList<Integer> syllablesArrayList = new ArrayList<Integer>();
 
@@ -36,11 +36,10 @@ class Word {
 		int[] syllables = new int[currentSyllablesArray.length];
 
 		for (int i = 0; i < currentSyllablesArray.length; i++) {
-			//syllables[i] = Integer.parseInt(currentSyllablesArray[i]);
+			syllables[i] = Integer.parseInt(currentSyllablesArray[i]);
 		}
 
 		return syllables;
-
 
 	}
 
@@ -53,7 +52,7 @@ class Word {
 		String[] currentSyllablesArray = split(currentWordSyllables,"/");
 
 		int syllableCount = currentSyllablesArray.length;
-		
+
 		return syllableCount;
 		
 	}
@@ -132,8 +131,13 @@ void generateLyrics(){
 	for (int y = 0; y < numberOfWords; y++) {
 
 		String currentWordValue = wordsFromInput[y];
-		Word currentWord = new Word(currentWordValue,y);
-		wordsArray.add(currentWord);
+		if (!RiTa.isPunctuation(currentWordValue)) {
+			
+			Word currentWord = new Word(currentWordValue,y);
+			wordsArray.add(currentWord);
+			println("The word is \"" + currentWord.value + "\". The first stress in this word is " + currentWord.getSyllableStresses()[0]);
+			
+		}
 		
 	}
 
