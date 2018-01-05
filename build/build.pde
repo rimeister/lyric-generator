@@ -41,24 +41,7 @@ void setup() {
 
 	inputTextArea = new GTextArea(this, 15, 15, 230, 400, G4P.SCROLLBARS_VERTICAL_ONLY | G4P.SCROLLBARS_AUTOHIDE);
 
-	inputTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-		+"Donec placerat risus vitae mi pharetra tempus. Nullam feugiat facilisis iaculis. "
-		+"In cursus nulla augue, quis bibendum nibh finibus rhoncus. Aenean sit amet feugiat "
-		+"nunc. Sed quis suscipit lacus. Ut venenatis ipsum lectus, eu interdum lorem varius "
-		+"eget. Nulla facilisi. Ut ultricies, lectus et venenatis iaculis, risus ex placerat "
-		+"risus, vel viverra tortor erat ac quam. Sed porttitor tortor cursus, porta neque nec, "
-		+"consequat lacus. Vestibulum varius quam ut turpis venenatis, vel dictum eros suscipit. "
-		+"Integer ac leo pretium, fermentum nisl vel, dapibus felis. Duis quis justo ut diam viverra "
-		+"tempor. Aliquam vehicula ultrices purus, vitae pulvinar mauris sollicitudin eu. Aenean "
-		+"elementum ipsum quis eros lacinia vestibulum. Ut dignissim tellus a dui bibendum faucibus. "
-		+"Sed vitae eros ac lorem elementum pretium at et lectus."
-		+"\n"
-		+"\n"
-		+"Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; "
-		+"Fusce venenatis ultrices egestas. Nulla facilisi. Sed egestas lacinia sodales. Etiam mollis "
-		+"tellus at sem finibus rutrum. Mauris efficitur sem vel felis vehicula, ut consectetur nisi "
-		+"placerat. Fusce interdum augue non volutpat maximus. Phasellus feugiat sollicitudin neque vel "
-		+"ornare. "
+	inputTextArea.setText("Sunset is the time of day when our sky meets the outer space solar winds. There are blue, pink, and purple swirls, spinning and twisting, like clouds of balloons caught in a blender. The sun moves slowly to hide behind the line of horizon, while the moon races to take its place in prominence atop the night sky. People slow to a crawl, entranced, fully forgetting the deeds that still must be done. There is a coolness, a calmness, when the sun does set."
 	);
 
 	// generateLyricsBtn bg color: #53525b
@@ -95,7 +78,7 @@ void handleButtonEvents(GButton button, GEvent event){
 void generateLyrics(){
 
 	String[] wordsFromInput = new String[0];
-	Word[] wordsArray = new Word[0];
+	ArrayList<Word> wordsArray = new ArrayList<Word>();
 
 	generatedLyrics = "";
 
@@ -121,7 +104,7 @@ void generateLyrics(){
 
 		Word currentWord = new Word(currentWordValue,currentWordSyllablesCount,y);
 
-		wordsArray = (Word[]) append(wordsArray,currentWord);
+		wordsArray.add(currentWord);
 		
 	}
 
@@ -145,6 +128,7 @@ void generateLyrics(){
 				Word[] filterWordResults = new Word[0];
 				String wordToAdd;
 				int randomIndex;
+				int indexOfRemoved;
 
 				for (Word word : wordsArray) {
 					
@@ -163,6 +147,10 @@ void generateLyrics(){
 				currentLine += filterWordResults[randomIndex].value;
 
 				j -= filterWordResults[randomIndex].syllableCount;
+
+				indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
+
+				wordsArray.remove(indexOfRemoved);
 				
 			}
 
@@ -177,8 +165,6 @@ void generateLyrics(){
 		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
 
-		wordsArray = new Word[0];
-
 		//println(wordsArray);
 
 	}
@@ -187,5 +173,21 @@ void generateLyrics(){
 	outputTextArea.setText(generatedLyrics);
 }
 
+int getIndexOfRemoved(ArrayList<Word> wordsToUpdate, Word selectedWord){
+
+	int indexVal = 0;
+
+	for (int k = 0; k < wordsToUpdate.size(); k++) {
+
+		if (wordsToUpdate.get(k).id == selectedWord.id) {
+			indexVal = k;
+			break;
+		}
+	
+	}
+
+	return indexVal;
+
+}
 // Ideas for next steps: Rhyme scheme. Evaluate if word at the end of a line rhymes with another word (from Array for Words). If there is at least one match, randomly choose one of the rhyming words, with the correct number of syllables. If not, randomly choose a word that rhymes and correct correct number of syllables from the dictionary/lexicon.
 // UI design: number of syllables per line, number of lines per stanza, rhyme scheme, perfect or imperect rhymes, meter (e.g., iambic)
