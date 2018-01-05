@@ -108,7 +108,7 @@ void generateLyrics(){
 		
 	}
 
-	for (int i = 0; i < numberOfStanzas; i++) {
+	//for (int i = 0; i < numberOfStanzas; i++) {
 
 		String currentStanza = "";
 
@@ -138,19 +138,27 @@ void generateLyrics(){
 
 				}
 
-				randomIndex = int( random(filterWordResults.length) );
+				if (filterWordResults.length > 0) {
 
-				if (currentLine != "") {
-					currentLine += " "; 					
+					randomIndex = int( random(filterWordResults.length) );
+
+					if (currentLine != "") {
+						currentLine += " "; 					
+					}
+
+					currentLine += filterWordResults[randomIndex].value;
+
+					j -= filterWordResults[randomIndex].syllableCount;
+
+					indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
+
+					wordsArray.remove(indexOfRemoved);
+
+				} else {
+
+					break;
+
 				}
-
-				currentLine += filterWordResults[randomIndex].value;
-
-				j -= filterWordResults[randomIndex].syllableCount;
-
-				indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
-
-				wordsArray.remove(indexOfRemoved);
 				
 			}
 
@@ -167,7 +175,7 @@ void generateLyrics(){
 
 		//println(wordsArray);
 
-	}
+	//}
 
 	// Show Generated lyrics in output text box
 	outputTextArea.setText(generatedLyrics);
