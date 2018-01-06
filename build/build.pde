@@ -247,7 +247,7 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
 	boolean resultFoundRandomly = false;
 	boolean resultFoundSystematically = false;
 	int[] tmpSylArray = {1};
-	Word foundWord = new Word("BOSS", 99, tmpSylArray, 1);
+	Word foundWord = new Word("BOSS", 99, tmpSylArray, 1); // Thought: maybe use RiTa to grab a random word that matches desired stresses and syllables
 
 	// Try three times to randomly find a word that matches
 	for (int i = 0; i < 3; i++) {
@@ -264,25 +264,7 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
 		
 		if (fitsStressPattern) {
 
-			// Add space if current line is not empty (i.e., there is already at least one word in it)
-			/*if (currentLine != "") {
-				currentLine += " "; 					
-			}*/
-
-			//currentLine += wordsToFilter[randomIndex].value;
-
 			int filteredLength = wordsToFilter[randomIndex].stresses.length;
-
-			// Test to see syllables
-			/*for (int k = 0; k < filteredLength; k++) {
-				currentLine += wordsToFilter[randomIndex].stresses[k];
-			}*/
-			
-			//j -= wordsToFilter[randomIndex].syllablecount;
-
-			//indexOfRemoved = getIndexOfRemoved(wordsArray,wordsToFilter[randomIndex]);
-
-			//wordsArray.remove(indexOfRemoved);
 
 			foundWord = wordsToFilter[randomIndex];
 
@@ -307,21 +289,7 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
 
 			if (matchesStresses) {
 
-				/*if (currentLine != "") {
-					currentLine += " "; 					
-				}*/
-
-				//currentLine += wordsToFilter[i];
 				int filteredLength = wordsToFilter[m].stresses.length;
-
-
-				//currentLine += "*****";
-
-				//foundSyllableCount = wordsToFilter[m].syllablecount;
-
-				//indexOfRemoved = getIndexOfRemoved(wordsArray,wordsToFilter[m]);
-
-				//wordsArray.remove(indexOfRemoved);
 
 				foundWord = wordsToFilter[m];
 
@@ -330,20 +298,19 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
 				// After systematically finding a word and adding it to the current line, break out of the loop
 				break;
 			}
-			// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
 			
 		}
 
 	}
 
-	if (!resultFoundRandomly && !resultFoundSystematically) {
-
-		//j -= foundSyllableCount;
-		//println("Found : "+foundSyllableCount );
-
-	}
-
 	return foundWord;
+
+}
+
+void removeWordFromMasterList(ArrayList<Word> masterArray, Word wordToRemove) {
+	
+	int indexOfRemoved = getIndexOfRemoved(masterArray,wordToRemove);
+	masterArray.remove(indexOfRemoved);
 
 }
 
