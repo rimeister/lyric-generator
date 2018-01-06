@@ -13,7 +13,6 @@ int numberOfLinesPerStanza = 4;
 int numberOfStanzas = 4;
 int numberOfSyllablesPerLine = 4;
 int[] syllableStressPattern = {1,0};
-boolean noMatchesLeft = false;
 
 
 class Word {
@@ -21,13 +20,15 @@ class Word {
 	// Word object has a value (the word itself), and number of syllables
 	String value;
 	int id;
+	int[] stresses;
 
-	public Word(String tempValue, int tmpId) {
+	public Word(String tempValue, int tmpId, int[] tmpStresses) {
 		value = tempValue;
 		id = tmpId;
+		stresses = tmpStresses;
 	}
 
-	public int[] getSyllableStresses() {
+	/*public int[] getSyllableStresses() {
 
 		ArrayList<Integer> syllablesArrayList = new ArrayList<Integer>();
 
@@ -43,7 +44,7 @@ class Word {
 
 		return syllables;
 
-	}
+	}*/
 
 	public int getSyllableCount() {
 
@@ -134,10 +135,9 @@ void generateLyrics(){
 
 		String currentWordValue = wordsFromInput[y];
 		if (!RiTa.isPunctuation(currentWordValue)) {
-			
-			Word currentWord = new Word(currentWordValue,y);
-			wordsArray.add(currentWord);
-			
+			int[] stressesArray = getSyllableStresses(currentWordValue);			
+			Word currentWord = new Word(currentWordValue,y,stressesArray);
+			wordsArray.add(currentWord);		
 		}
 		
 	}
@@ -165,7 +165,6 @@ void generateLyrics(){
 				int indexOfRemoved;
 				int stressFailCount = 0;
 				int i = 0;
-				noMatchesLeft = false;
 
 				for (Word word : wordsArray) {
 					// Filter so we get only words with the number of syllables we're looking for, and omit punctuationn.
@@ -197,11 +196,11 @@ void generateLyrics(){
 
 							currentLine += filterWordResults[randomIndex].value;
 
-							int filteredLength = filterWordResults[randomIndex].getSyllableStresses().length;
+							int filteredLength = filterWordResults[randomIndex].stresses.length;
 
 							// Test to see syllables
 							for (int k = 0; k < filteredLength; k++) {
-								currentLine += filterWordResults[randomIndex].getSyllableStresses()[k];
+								currentLine += filterWordResults[randomIndex].stresses[k];
 							}
 							
 							j -= filterWordResults[randomIndex].getSyllableCount();
@@ -212,7 +211,7 @@ void generateLyrics(){
 
 							break;
 
-						} else if (i > 5) {
+						} else if (i > 2 ) {
 
 							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
 							for (int m = 0; m < filterWordResults.length; m++) {
@@ -228,12 +227,12 @@ void generateLyrics(){
 									}
 
 									currentLine += filterWordResults[i].value;
-									int filteredLength = filterWordResults[m].getSyllableStresses().length;
+									int filteredLength = filterWordResults[m].stresses.length;
 
 
 									// Test to see syllables
 									for (int k = 0; k < filteredLength; k++) {
-										currentLine += filterWordResults[m].getSyllableStresses()[k];
+										currentLine += filterWordResults[m].stresses[k];
 									}
 									currentLine += "*****";
 
@@ -244,12 +243,10 @@ void generateLyrics(){
 									wordsArray.remove(indexOfRemoved);
 
 									// After systematically finding a word and adding it to the current line, break out of the loop
-									// By breaking out at this point, noMatchesLeft does not get set to true
 									break;
 								}
 								// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
 								
-								//noMatchesLeft = true;
 							}
 
 						} else {
@@ -264,6 +261,8 @@ void generateLyrics(){
 
 				}
 
+				j--;
+			
 			}
 
 			// Add "\n" to end of current line using "currentLine += '\n' "
@@ -301,11 +300,29 @@ int getIndexOfRemoved(ArrayList<Word> wordsToUpdate, Word selectedWord){
 
 }
 
+int[] getSyllableStresses(String wordVal) {
+
+	ArrayList<Integer> syllablesArrayList = new ArrayList<Integer>();
+
+	String currentWordStresses = RiTa.getStresses(wordVal);
+
+	String[] currentSyllablesArray = split(currentWordStresses,"/");
+
+	int[] syllables = new int[currentSyllablesArray.length];
+
+	for (int i = 0; i < currentSyllablesArray.length; i++) {
+		syllables[i] = Integer.parseInt(currentSyllablesArray[i]);
+	}
+
+	return syllables;
+
+}
+
 boolean testStressesAgaintPattern(Word wordToTest, int startingIndex) {
 	
 	int[] stressPattern = {1,0,1,0};
 
-	int[] currentWordStresses = wordToTest.getSyllableStresses();
+	int[] currentWordStresses = wordToTest.stresses;
 
 	for (int i = 0; i < currentWordStresses.length; i++) {
 		if ( currentWordStresses[i] != stressPattern[startingIndex + i] ) {
