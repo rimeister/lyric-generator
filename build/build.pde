@@ -13,7 +13,7 @@ int numberOfLinesPerStanza = 4;
 int numberOfStanzas = 4;
 int numberOfSyllablesPerLine = 4;
 int[] syllableStressPattern = {1,0};
-
+int testInt = 0;
 
 class Word {
 
@@ -45,7 +45,7 @@ void setup() {
 
 	inputTextArea = new GTextArea(this, 15, 15, 230, 400, G4P.SCROLLBARS_VERTICAL_ONLY | G4P.SCROLLBARS_AUTOHIDE);
 
-	inputTextArea.setText("Sunset is the time of day when our sky meets the outer space solar winds. There are blue, pink, and purple swirls, spinning and twisting, like clouds of balloons caught in a blender. The sun moves slowly to hide behind the line of horizon, while the moon races to take its place in prominence atop the night sky. People slow to a crawl, entranced, fully forgetting the deeds that still must be done. There is a coolness, a calmness, when the sun does set."
+	inputTextArea.setText("Sunset is the time of day when our sky meets the outer space solar winds. There are blue, pink, and purple swirls, spinning and twisting, like clouds of balloons caught in a blender. The sun moves slowly to hide behind the line of horizon, while the moon races to take its place in prominence atop the night sky. People slow to a crawl, entranced, fully forgetting the deeds that still must be done. There is a coolness, a calmness, when the sun does set. Sunset is the time of day when our sky meets the outer space solar winds. There are blue, pink, and purple swirls, spinning and twisting, like clouds of balloons caught in a blender. The sun moves slowly to hide behind the line of horizon, while the moon races to take its place in prominence atop the night sky. People slow to a crawl, entranced, fully forgetting the deeds that still must be done. There is a coolness, a calmness, when the sun does set."
 	);
 
 	// generateLyricsBtn bg color: #53525b
@@ -159,8 +159,6 @@ void generateLyrics(){
 						
 						if (fitsStressPattern) {
 
-							println("FIRST tier: " + filterWordResults[randomIndex].value + " matches stresses is " + fitsStressPattern + ". J is " + j);
-
 							// Add space if current line is not empty (i.e., there is already at least one word in it)
 							if (currentLine != "") {
 								currentLine += " "; 					
@@ -186,14 +184,16 @@ void generateLyrics(){
 						}
 
 						if (i == 200) {
-
+							
 							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
+							boolean foundMatch = false;
+							int foundSyllableCount = 0;
+
 							for (int m = 0; m < filterWordResults.length; m++) {
-								
+
 								boolean matchesStresses = testStressesAgaintPattern(filterWordResults[m],startAtIndex);
-								println(filterWordResults[m].value);
-								println("matches stresses is "+matchesStresses);
-								//matchesStresses = true;
+
+
 								if (matchesStresses) {
 
 									if (currentLine != "") {
@@ -209,11 +209,13 @@ void generateLyrics(){
 									}
 									currentLine += "*****";
 
-									j -= filterWordResults[m].syllablecount;
+									foundSyllableCount = filterWordResults[m].syllablecount;
 
 									indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[m]);
 
 									wordsArray.remove(indexOfRemoved);
+
+									foundMatch = true;
 
 									// After systematically finding a word and adding it to the current line, break out of the loop
 									break;
@@ -222,14 +224,20 @@ void generateLyrics(){
 								
 							}
 
+							if (foundMatch) {
 
-						}
+								j -= foundSyllableCount;
+								println("Found : "+foundSyllableCount );
 
-						if (i > 200) {
+
+							} else {
+								
+								currentLine += "BOSS";
+								j = 0;
+								break;	
 							
-							currentLine += "BOSS";
-							j = 0;
-							break;	
+							}
+
 						}
 
 						i++;
