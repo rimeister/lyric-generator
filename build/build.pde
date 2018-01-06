@@ -187,9 +187,45 @@ void generateLyrics(){
 
 						if (i == 200) {
 
+							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
+							for (int m = 0; m < filterWordResults.length; m++) {
+								
+								boolean matchesStresses = testStressesAgaintPattern(filterWordResults[m],startAtIndex);
+								println(filterWordResults[m].value);
+								println("matches stresses is "+matchesStresses);
+								//matchesStresses = true;
+								if (matchesStresses) {
+
+									if (currentLine != "") {
+										currentLine += " "; 					
+									}
+
+									currentLine += filterWordResults[i].value;
+									int filteredLength = filterWordResults[m].stresses.length;
+
+									// Test to see syllables
+									for (int k = 0; k < filteredLength; k++) {
+										currentLine += filterWordResults[m].stresses[k];
+									}
+									currentLine += "*****";
+
+									j -= filterWordResults[m].syllablecount;
+
+									indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[m]);
+
+									wordsArray.remove(indexOfRemoved);
+
+									// After systematically finding a word and adding it to the current line, break out of the loop
+									break;
+								}
+								// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
+								
+							}
+
+
 						}
 
-						i (i > 200) {
+						if (i > 200) {
 							
 							currentLine += "BOSS";
 							j = 0;
