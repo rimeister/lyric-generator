@@ -129,10 +129,7 @@ void generateLyrics(){
 			while (j > 0) {
 
 				Word[] filterWordResults = new Word[0];
-				String wordToAdd;
-				int randomIndex;
-				int indexOfRemoved;
-				boolean tryall = false;
+				int startAtIndex = numberOfSyllablesPerLine - j;
 
 				for (Word word : wordsArray) {
 					// Filter so we get only words with the number of syllables we're looking for, and omit punctuationn.
@@ -144,105 +141,10 @@ void generateLyrics(){
 
 				if (filterWordResults.length > 0) {
 
-					int i = 0;
-
-					do {
-
-						// Get a random index value based on the length of the results array
-						randomIndex = int( random(filterWordResults.length) );
-						
-						// Get desired starting index by taking number of syllables, subtracting how many spaces are left, then subtract one to get index
-						int startAtIndex = numberOfSyllablesPerLine - j;
-
-						// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
-						boolean fitsStressPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
-						
-						if (fitsStressPattern) {
-
-							// Add space if current line is not empty (i.e., there is already at least one word in it)
-							if (currentLine != "") {
-								currentLine += " "; 					
-							}
-
-							currentLine += filterWordResults[randomIndex].value;
-
-							int filteredLength = filterWordResults[randomIndex].stresses.length;
-
-							// Test to see syllables
-							for (int k = 0; k < filteredLength; k++) {
-								currentLine += filterWordResults[randomIndex].stresses[k];
-							}
-							
-							j -= filterWordResults[randomIndex].syllablecount;
-
-							indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
-
-							wordsArray.remove(indexOfRemoved);
-
-							break;
-
-						}
-
-						if (i == 200) {
-							
-							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
-							boolean foundMatch = false;
-							int foundSyllableCount = 0;
-
-							for (int m = 0; m < filterWordResults.length; m++) {
-
-								boolean matchesStresses = testStressesAgaintPattern(filterWordResults[m],startAtIndex);
-
-
-								if (matchesStresses) {
-
-									if (currentLine != "") {
-										currentLine += " "; 					
-									}
-
-									currentLine += filterWordResults[i].value;
-									int filteredLength = filterWordResults[m].stresses.length;
-
-									// Test to see syllables
-									for (int k = 0; k < filteredLength; k++) {
-										currentLine += filterWordResults[m].stresses[k];
-									}
-									currentLine += "*****";
-
-									foundSyllableCount = filterWordResults[m].syllablecount;
-
-									indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[m]);
-
-									wordsArray.remove(indexOfRemoved);
-
-									foundMatch = true;
-
-									// After systematically finding a word and adding it to the current line, break out of the loop
-									break;
-								}
-								// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
-								
-							}
-
-							if (foundMatch) {
-
-								j -= foundSyllableCount;
-								println("Found : "+foundSyllableCount );
-
-
-							} else {
-								
-								currentLine += "BOSS";
-								j = 0;
-								break;	
-							
-							}
-
-						}
-
-						i++;
-
-					} while(i < 201);
+					// function that searches through results array and returns a word that matches stress pattern goes here
+					String wordToAdd = findWordThatMatchesStressPattern(filterWordResults, startAtIndex);
+					//currentLine += wordToAdd;
+					println(wordToAdd);
 
 				}
 
@@ -315,7 +217,7 @@ int getSyllableCount(String wordVal) {
 	
 }
 
-boolean testStressesAgaintPattern(Word wordToTest, int startingIndex) {
+boolean testStressesOfWordAgaintPattern(Word wordToTest, int startingIndex) {
 	
 	int[] stressPattern = {1,0,1,0};
 
@@ -328,6 +230,116 @@ boolean testStressesAgaintPattern(Word wordToTest, int startingIndex) {
 	}
 
 	return true;
+
+}
+
+String findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
+	// Search through the Array of words (which have already been filtered for number of syllables)
+	// and find a word among them that matches the stress pattern required
+	int indexOfRemoved;
+	boolean resultFoundRandomly = false;
+	boolean resultFoundSystematically = false;
+	String foundWord = "";
+
+	// Try three times to randomly find a word that matches
+	for (int i = 0; i < 3; i++) {
+
+		int randomIndex;
+
+		// Get a random index value based on the length of the results array
+		randomIndex = int( random(wordsToFilter.length) );
+		
+		// Get desired starting index by taking number of syllables, subtracting how many spaces are left, then subtract one to get index
+
+		// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
+		boolean fitsStressPattern = testStressesOfWordAgaintPattern(wordsToFilter[randomIndex],startingIndex);
+		
+		if (fitsStressPattern) {
+
+			// Add space if current line is not empty (i.e., there is already at least one word in it)
+			/*if (currentLine != "") {
+				currentLine += " "; 					
+			}*/
+
+			//currentLine += wordsToFilter[randomIndex].value;
+
+			int filteredLength = wordsToFilter[randomIndex].stresses.length;
+
+			// Test to see syllables
+			/*for (int k = 0; k < filteredLength; k++) {
+				currentLine += wordsToFilter[randomIndex].stresses[k];
+			}*/
+			
+			//j -= wordsToFilter[randomIndex].syllablecount;
+
+			//indexOfRemoved = getIndexOfRemoved(wordsArray,wordsToFilter[randomIndex]);
+
+			//wordsArray.remove(indexOfRemoved);
+
+			foundWord = wordsToFilter[randomIndex].value;
+
+			resultFoundRandomly = true;
+
+			break;
+
+		}
+
+	}
+
+	// If, after trying three times, we can't find a random word, iterate over each word in the array until a match is found
+	if (!resultFoundRandomly) {
+		
+		// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
+		//int foundSyllableCount = 0;
+
+		for (int m = 0; m < wordsToFilter.length; m++) {
+
+			boolean matchesStresses = testStressesOfWordAgaintPattern(wordsToFilter[m],startingIndex);
+
+
+			if (matchesStresses) {
+
+				/*if (currentLine != "") {
+					currentLine += " "; 					
+				}*/
+
+				//currentLine += wordsToFilter[i].value;
+				int filteredLength = wordsToFilter[m].stresses.length;
+
+				// Test to see syllables
+				/* for (int k = 0; k < filteredLength; k++) {
+					currentLine += wordsToFilter[m].stresses[k];
+				}*/
+				//currentLine += "*****";
+
+				//foundSyllableCount = wordsToFilter[m].syllablecount;
+
+				//indexOfRemoved = getIndexOfRemoved(wordsArray,wordsToFilter[m]);
+
+				//wordsArray.remove(indexOfRemoved);
+
+				foundWord = wordsToFilter[m].value;
+
+				resultFoundSystematically = true;
+
+				// After systematically finding a word and adding it to the current line, break out of the loop
+				break;
+			}
+			// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
+			
+		}
+
+	}
+
+	if (!resultFoundRandomly && !resultFoundSystematically) {
+
+		//j -= foundSyllableCount;
+		//println("Found : "+foundSyllableCount );
+		foundWord = "BOSS";
+
+	}
+
+	return foundWord;
 
 }
 
