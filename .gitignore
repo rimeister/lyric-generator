@@ -1,1 +1,4 @@
 build-tmp/
+build/application.macosx/
+build/application.windows32/
+build/application.windows64/
