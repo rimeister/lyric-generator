@@ -14,6 +14,7 @@ int numberOfStanzas = 4;
 int numberOfSyllablesPerLine = 4;
 int[] syllableStressPattern = {1,0};
 boolean noMatchesLeft = false;
+boolean syllablesLeft;
 
 
 class Word {
@@ -142,7 +143,11 @@ void generateLyrics(){
 		
 	}
 
-	for (int w = 0; w < numberOfStanzas; w++) {
+	if (wordsArray.size() > 0) {
+		syllablesLeft = true;
+	}
+
+	do {
 
 		String currentStanza = "";
 
@@ -243,6 +248,11 @@ void generateLyrics(){
 					// 		//noMatchesLeft = true;
 					// 	}
 
+				}  else {
+
+					syllablesLeft = false;
+					break;
+
 				}
 				
 			}
@@ -258,7 +268,7 @@ void generateLyrics(){
 		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
 
-	}
+	} while (syllablesLeft); // End do-while loop
 
 	// Show Generated lyrics in output text box
 	outputTextArea.setText(generatedLyrics);
