@@ -142,9 +142,10 @@ void generateLyrics(){
 				if (filterWordResults.length > 0) {
 
 					// function that searches through results array and returns a word that matches stress pattern goes here
-					String wordToAdd = findWordThatMatchesStressPattern(filterWordResults, startAtIndex);
+					Word wordToAdd = findWordThatMatchesStressPattern(filterWordResults, startAtIndex);
 					//currentLine += wordToAdd;
-					println(wordToAdd);
+					println(wordToAdd.value);
+					j -= wordToAdd.syllablecount;;
 
 				}
 
@@ -233,13 +234,14 @@ boolean testStressesOfWordAgaintPattern(Word wordToTest, int startingIndex) {
 
 }
 
-String findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
+Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
 	// Search through the Array of words (which have already been filtered for number of syllables)
 	// and find a word among them that matches the stress pattern required
 	int indexOfRemoved;
 	boolean resultFoundRandomly = false;
 	boolean resultFoundSystematically = false;
-	String foundWord = "";
+	int[] tmpSylArray = {1};
+	Word foundWord = new Word("BOSS", 99, tmpSylArray, 1);
 
 	// Try three times to randomly find a word that matches
 	for (int i = 0; i < 3; i++) {
@@ -276,7 +278,7 @@ String findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex)
 
 			//wordsArray.remove(indexOfRemoved);
 
-			foundWord = wordsToFilter[randomIndex].value;
+			foundWord = wordsToFilter[randomIndex];
 
 			resultFoundRandomly = true;
 
@@ -303,7 +305,7 @@ String findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex)
 					currentLine += " "; 					
 				}*/
 
-				//currentLine += wordsToFilter[i].value;
+				//currentLine += wordsToFilter[i];
 				int filteredLength = wordsToFilter[m].stresses.length;
 
 				// Test to see syllables
@@ -318,7 +320,7 @@ String findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex)
 
 				//wordsArray.remove(indexOfRemoved);
 
-				foundWord = wordsToFilter[m].value;
+				foundWord = wordsToFilter[m];
 
 				resultFoundSystematically = true;
 
@@ -335,7 +337,6 @@ String findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex)
 
 		//j -= foundSyllableCount;
 		//println("Found : "+foundSyllableCount );
-		foundWord = "BOSS";
 
 	}
 
