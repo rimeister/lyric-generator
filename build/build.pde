@@ -182,8 +182,7 @@ void generateLyrics(){
 
 					// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
 					boolean fitsStressPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
-					println("The stress pattern matching is evaluating to : " + fitsStressPattern);
-					fitsStressPattern = true;
+					
 					if (fitsStressPattern) {
 
 						// Add space if current line is not empty (i.e., there is already at least one word in it)
