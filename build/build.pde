@@ -10,6 +10,7 @@ String inputText;
 String generatedLyrics;
 RiString rInputText;
 int numberOfLinesPerStanza = 4;
+int numberOfStanzas = 4;
 int numberOfSyllablesPerLine = 4;
 int[] syllableStressPattern = {1,0};
 boolean noMatchesLeft = false;
@@ -141,7 +142,7 @@ void generateLyrics(){
 		
 	}
 
-	do {
+	for (int w = 0; w < numberOfStanzas; w++) {
 
 		String currentStanza = "";
 
@@ -192,8 +193,10 @@ void generateLyrics(){
 
 						currentLine += filterWordResults[randomIndex].value;
 
+						int filteredLength = filterWordResults[randomIndex].getSyllableStresses().length;
+
 						// Test to see syllables
-						for (int i = 0; i < filterWordResults[randomIndex].getSyllableStresses().length; i++) {
+						for (int i = 0; i < filteredLength; i++) {
 							currentLine += filterWordResults[randomIndex].getSyllableStresses()[i];
 						}
 						
@@ -204,42 +207,41 @@ void generateLyrics(){
 						wordsArray.remove(indexOfRemoved);
 
 					} else {
-
-						stressFailCount++;
-
-					}
-
-					if (stressFailCount == 3) {
 						
-						// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
-						for (int i = 0; i < filterWordResults.length; i++) {
-							
-							boolean matchesStresses = testStressesAgaintPattern(filterWordResults[i],startAtIndex);
-							if (matchesStresses) {
-
-								if (currentLine != "") {
-									currentLine += " "; 					
-								}
-
-								currentLine += filterWordResults[i].value;
-
-								j -= filterWordResults[i].getSyllableCount();
-
-								indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[i]);
-
-								wordsArray.remove(indexOfRemoved);
-
-								// After systematically finding a word and adding it to the current line, break out of the loop
-								// By breaking out at this point, noMatchesLeft does not get set to true
-								break;
-							}
-							// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
-							noMatchesLeft = true;
-						}
-
+						currentLine += "BOSS";
+						j = 0;
 
 					}
 
+					// if (stressFailCount == 3) {
+						
+					// 	// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
+					// 	for (int i = 0; i < filterWordResults.length; i++) {
+							
+					// 		boolean matchesStresses = testStressesAgaintPattern(filterWordResults[i],startAtIndex);
+					// 		if (matchesStresses) {
+
+					// 			if (currentLine != "") {
+					// 				currentLine += " "; 					
+					// 			}
+
+					// 			currentLine += filterWordResults[i].value;
+
+					// 			j -= filterWordResults[i].getSyllableCount();
+
+					// 			indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[i]);
+
+					// 			wordsArray.remove(indexOfRemoved);
+					// 			println(i);
+
+					// 			// After systematically finding a word and adding it to the current line, break out of the loop
+					// 			// By breaking out at this point, noMatchesLeft does not get set to true
+					// 			break;
+					// 		}
+					// 		// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
+							
+					// 		//noMatchesLeft = true;
+					// 	}
 
 				}
 				
@@ -256,7 +258,7 @@ void generateLyrics(){
 		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
 
-	} while (!noMatchesLeft); // End do-while loop
+	}
 
 	// Show Generated lyrics in output text box
 	outputTextArea.setText(generatedLyrics);
