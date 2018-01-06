@@ -146,11 +146,12 @@ void generateLyrics(){
 					Word wordToAdd = findWordThatMatchesStressPattern(filterWordResults, startAtIndex);
 					currentLine += wordToAdd.value;
 
+					// Add a space after if it's not the first word
 					if (currentLine != "") {
 						currentLine += " "; 					
 					}
 
-					println(wordToAdd.value);
+					// Reduce the remaining available syllables in the line by the number of syllables in the added word
 					j -= wordToAdd.syllablecount;
 
 				}
