@@ -212,12 +212,15 @@ void generateLyrics(){
 
 							break;
 
-						} else if (i == 3) {
+						} else if (i > 5) {
 
 							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
 							for (int m = 0; m < filterWordResults.length; m++) {
 								
-								boolean matchesStresses = true;//testStressesAgaintPattern(filterWordResults[m],startAtIndex);
+								boolean matchesStresses = testStressesAgaintPattern(filterWordResults[m],startAtIndex);
+								println(filterWordResults[m].value);
+								println("matches stresses is "+matchesStresses);
+								//matchesStresses = true;
 								if (matchesStresses) {
 
 									if (currentLine != "") {
@@ -246,10 +249,10 @@ void generateLyrics(){
 								}
 								// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
 								
-								noMatchesLeft = true;
+								//noMatchesLeft = true;
 							}
 
-						} else if (noMatchesLeft) {
+						} else {
 							currentLine += "BOSS";
 							j = 0;
 							break;
@@ -257,7 +260,7 @@ void generateLyrics(){
 
 						i++;
 
-					} while (i < 4);
+					} while (i < 3);
 
 				}
 
