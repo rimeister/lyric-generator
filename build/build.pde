@@ -185,11 +185,15 @@ void generateLyrics(){
 
 						}
 
-						if (i >=200) {
+						if (i == 200) {
+
+						}
+
+						i (i > 200) {
+							
 							currentLine += "BOSS";
 							j = 0;
-
-							break;
+							break;	
 						}
 
 						i++;
