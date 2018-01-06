@@ -247,40 +247,11 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex, i
 	int indexOfRemoved;
 	boolean resultFoundRandomly = false;
 	boolean resultFoundSystematically = false;
+	boolean resultFoundInLexicon = false;
 	int[] tmpSylArray = {1};
 	Word foundWord = new Word("BOSS", 99, tmpSylArray, 1);
-	int v = 0;
 
-	while (1 < 2) {
-
-		String randomWordString = RiTa.randomWord("vb",(int)random(maxSyllableCount));
-
-		if (randomWordString != "") {
-
-			int[] tmpSyl = getSyllableStresses(randomWordString);
-			int tmpSylCount = getSyllableCount(randomWordString);
-
-			Word tmpRandomWord = new Word(randomWordString,100,tmpSyl,tmpSylCount);
-
-			if ( testStressesOfWordAgaintPattern(tmpRandomWord,startingIndex) ) {
-				
-				foundWord = tmpRandomWord;
-				break;
-			}
-
-		}
-
-		if (v > 10) {
-			break;
-		}
-
-		v++;
-
-	}
-
-	println("Random word is: "+foundWord.value);
-
-	// Try three times to randomly find a word that matches
+	// Try three times to randomly find a word that matches in the existing pool of words
 	for (int i = 0; i < 3; i++) {
 
 		int randomIndex;
@@ -307,12 +278,9 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex, i
 
 	}
 
-	// If, after trying three times, we can't find a random word, iterate over each word in the array until a match is found
+	// If, after trying three times, we can't find a random word, systematically iterate over each word in the array until a match is found
 	if (!resultFoundRandomly) {
 		
-		// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
-		//int foundSyllableCount = 0;
-
 		for (int m = 0; m < wordsToFilter.length; m++) {
 
 			boolean matchesStresses = testStressesOfWordAgaintPattern(wordsToFilter[m],startingIndex);
@@ -334,6 +302,42 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex, i
 
 	}
 
+	// If a word is not found randomly or systematically in the pool of words, go to the lexicon to try and find a random word that matches. Try 100 times. 
+	if (!resultFoundRandomly && !resultFoundSystematically) {
+
+		for (int v = 0; v < 100; v++) {
+
+			String randomWordString = RiTa.randomWord("vb",(int)random(maxSyllableCount));
+
+			if (randomWordString != "") {
+
+				int[] tmpSyl = getSyllableStresses(randomWordString);
+				int tmpSylCount = getSyllableCount(randomWordString);
+
+				Word tmpRandomWord = new Word(randomWordString,100,tmpSyl,tmpSylCount);
+
+				if ( testStressesOfWordAgaintPattern(tmpRandomWord,startingIndex) ) {
+					
+					foundWord = tmpRandomWord;
+
+					resultFoundInLexicon = true;
+					
+					break;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	// If random, systematic, and lexicon fail to find a match, set word to ""
+	// Tried our best, that word will just have to be blank.
+	if (!resultFoundRandomly && !resultFoundSystematically && !resultFoundInLexicon) {
+		foundWord = new Word("",-1,tmpSylArray,0);
+	}
+	
 	return foundWord;
 
 }
