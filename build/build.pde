@@ -256,7 +256,7 @@ void generateLyrics(){
 		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
 
-	} while (noMatchesLeft); // End do-while loop
+	} while (!noMatchesLeft); // End do-while loop
 
 	// Show Generated lyrics in output text box
 	outputTextArea.setText(generatedLyrics);
