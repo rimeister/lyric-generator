@@ -164,6 +164,7 @@ void generateLyrics(){
 				int randomIndex;
 				int indexOfRemoved;
 				int stressFailCount = 0;
+				int i = 0;
 
 				for (Word word : wordsArray) {
 					// Filter so we get only words with the number of syllables we're looking for, and omit punctuationn.
@@ -175,43 +176,84 @@ void generateLyrics(){
 
 				if (filterWordResults.length > 0) {
 
-					// Get a random index value based on the length of the results array
-					randomIndex = int( random(filterWordResults.length) );
-					
-					// Get desired starting index by taking number of syllables, subtracting how many spaces are left, then subtract one to get index
-					int startAtIndex = numberOfSyllablesPerLine - j;
 
-					// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
-					boolean fitsStressPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
-					
-					if (fitsStressPattern) {
+					do {
+						// Get a random index value based on the length of the results array
+						randomIndex = int( random(filterWordResults.length) );
+						
+						// Get desired starting index by taking number of syllables, subtracting how many spaces are left, then subtract one to get index
+						int startAtIndex = numberOfSyllablesPerLine - j;
 
-						// Add space if current line is not empty (i.e., there is already at least one word in it)
-						if (currentLine != "") {
-							currentLine += " "; 					
+						boolean testPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
+						// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
+						//boolean fitsStressPattern = true; //testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
+						
+						println(i);
+
+						if (i >= 3) {
+
+							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
+							for (int m = 0; m < filterWordResults.length; m++) {
+								
+								boolean matchesStresses = true;//testStressesAgaintPattern(filterWordResults[m],startAtIndex);
+								if (matchesStresses) {
+
+									if (currentLine != "") {
+										currentLine += " "; 					
+									}
+
+									currentLine += filterWordResults[i].value;
+
+									j -= filterWordResults[m].getSyllableCount();
+
+									indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[m]);
+
+									wordsArray.remove(indexOfRemoved);
+
+									// After systematically finding a word and adding it to the current line, break out of the loop
+									// By breaking out at this point, noMatchesLeft does not get set to true
+									break;
+								}
+								// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
+								
+								//noMatchesLeft = true;
+							}
+						
+							//currentLine += "BOSS";
+							//j = 0;
+							//break;
+
 						}
 
-						currentLine += filterWordResults[randomIndex].value;
+						if (testPattern) {
 
-						int filteredLength = filterWordResults[randomIndex].getSyllableStresses().length;
+							// Add space if current line is not empty (i.e., there is already at least one word in it)
+							if (currentLine != "") {
+								currentLine += " "; 					
+							}
 
-						// Test to see syllables
-						for (int i = 0; i < filteredLength; i++) {
-							currentLine += filterWordResults[randomIndex].getSyllableStresses()[i];
+							currentLine += filterWordResults[randomIndex].value;
+
+							int filteredLength = filterWordResults[randomIndex].getSyllableStresses().length;
+
+							// Test to see syllables
+							for (int k = 0; k < filteredLength; k++) {
+								currentLine += filterWordResults[randomIndex].getSyllableStresses()[k];
+							}
+							
+							j -= filterWordResults[randomIndex].getSyllableCount();
+
+							indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
+
+							wordsArray.remove(indexOfRemoved);
+
+							break;
+
 						}
-						
-						j -= filterWordResults[randomIndex].getSyllableCount();
 
-						indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
+						i++;
 
-						wordsArray.remove(indexOfRemoved);
-
-					} else {
-						
-						currentLine += "BOSS";
-						j = 0;
-
-					}
+					} while (i < 4);
 
 					// if (stressFailCount == 3) {
 						
@@ -232,7 +274,6 @@ void generateLyrics(){
 					// 			indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[i]);
 
 					// 			wordsArray.remove(indexOfRemoved);
-					// 			println(i);
 
 					// 			// After systematically finding a word and adding it to the current line, break out of the loop
 					// 			// By breaking out at this point, noMatchesLeft does not get set to true
@@ -244,7 +285,7 @@ void generateLyrics(){
 					// 	}
 
 				}
-				
+
 			}
 
 			// Add "\n" to end of current line using "currentLine += '\n' "
