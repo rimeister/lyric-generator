@@ -11,8 +11,9 @@ String generatedLyrics;
 RiString rInputText;
 int numberOfLinesPerStanza = 4;
 int numberOfSyllablesPerLine = 4;
-boolean syllablesLeft;
 int[] syllableStressPattern = {1,0};
+boolean noMatchesLeft = false;
+
 
 class Word {
 
@@ -127,7 +128,7 @@ void generateLyrics(){
 	// Get the number of words in the array
 	int numberOfWords = wordsFromInput.length;
 
-	// Put create a Word object for each word, put it into the wordsArray
+	// Create a Word object for each word, put it into the wordsArray. Runs once when Generate Lyrics button is pushed.
 	for (int y = 0; y < numberOfWords; y++) {
 
 		String currentWordValue = wordsFromInput[y];
@@ -135,19 +136,9 @@ void generateLyrics(){
 			
 			Word currentWord = new Word(currentWordValue,y);
 			wordsArray.add(currentWord);
-
-			print("The word \"" + currentWord.value + "\" has these stresses: ");
-			for (int i = 0; i < currentWord.getSyllableStresses().length; i++) {
-				print(" " + currentWord.getSyllableStresses()[i]);
-			}
-			print("\n");
 			
 		}
 		
-	}
-
-	if (wordsArray.size() > 0) {
-		syllablesLeft = true;
 	}
 
 	do {
@@ -171,9 +162,10 @@ void generateLyrics(){
 				String wordToAdd;
 				int randomIndex;
 				int indexOfRemoved;
+				int stressFailCount = 0;
 
 				for (Word word : wordsArray) {
-					
+					// Filter so we get only words with the number of syllables we're looking for, and omit punctuationn.
 					if ( word.getSyllableCount() <= j && !RiTa.isPunctuation(word.value) ) {
 						filterWordResults = (Word[]) append(filterWordResults, word);
 					}
@@ -182,24 +174,73 @@ void generateLyrics(){
 
 				if (filterWordResults.length > 0) {
 
+					// Get a random index value based on the length of the results array
 					randomIndex = int( random(filterWordResults.length) );
+					
+					// Get desired starting index by taking number of syllables, subtracting how many spaces are left, then subtract one to get index
+					int startAtIndex = numberOfSyllablesPerLine - j;
 
-					if (currentLine != "") {
-						currentLine += " "; 					
+					// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
+					boolean fitsStressPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
+					println("The stress pattern matching is evaluating to : " + fitsStressPattern);
+					fitsStressPattern = true;
+					if (fitsStressPattern) {
+
+						// Add space if current line is not empty (i.e., there is already at least one word in it)
+						if (currentLine != "") {
+							currentLine += " "; 					
+						}
+
+						currentLine += filterWordResults[randomIndex].value;
+
+						// Test to see syllables
+						for (int i = 0; i < filterWordResults[randomIndex].getSyllableStresses().length; i++) {
+							currentLine += filterWordResults[randomIndex].getSyllableStresses()[i];
+						}
+						
+						j -= filterWordResults[randomIndex].getSyllableCount();
+
+						indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
+
+						wordsArray.remove(indexOfRemoved);
+
+					} else {
+
+						stressFailCount++;
+
 					}
 
-					currentLine += filterWordResults[randomIndex].value;
+					if (stressFailCount == 3) {
+						
+						// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
+						for (int i = 0; i < filterWordResults.length; i++) {
+							
+							boolean matchesStresses = testStressesAgaintPattern(filterWordResults[i],startAtIndex);
+							if (matchesStresses) {
 
-					j -= filterWordResults[randomIndex].getSyllableCount();
+								if (currentLine != "") {
+									currentLine += " "; 					
+								}
 
-					indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
+								currentLine += filterWordResults[i].value;
 
-					wordsArray.remove(indexOfRemoved);
+								j -= filterWordResults[i].getSyllableCount();
 
-				} else {
+								indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[i]);
 
-					syllablesLeft = false;
-					break;
+								wordsArray.remove(indexOfRemoved);
+
+								// After systematically finding a word and adding it to the current line, break out of the loop
+								// By breaking out at this point, noMatchesLeft does not get set to true
+								break;
+							}
+							// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
+							noMatchesLeft = true;
+						}
+
+
+					}
+
 
 				}
 				
@@ -216,11 +257,11 @@ void generateLyrics(){
 		currentStanza += "\n" + " " + "\n";
 		generatedLyrics += currentStanza;
 
-
-	} while (syllablesLeft); // End do-while loop
+	} while (noMatchesLeft); // End do-while loop
 
 	// Show Generated lyrics in output text box
 	outputTextArea.setText(generatedLyrics);
+
 }
 
 int getIndexOfRemoved(ArrayList<Word> wordsToUpdate, Word selectedWord){
@@ -237,6 +278,22 @@ int getIndexOfRemoved(ArrayList<Word> wordsToUpdate, Word selectedWord){
 	}
 
 	return indexVal;
+
+}
+
+boolean testStressesAgaintPattern(Word wordToTest, int startingIndex) {
+	
+	int[] stressPattern = {1,0,1,0};
+
+	int[] currentWordStresses = wordToTest.getSyllableStresses();
+
+	for (int i = 0; i < currentWordStresses.length; i++) {
+		if ( currentWordStresses[i] != stressPattern[startingIndex + i] ) {
+			return false;
+		}
+	}
+
+	return true;
 
 }
 
