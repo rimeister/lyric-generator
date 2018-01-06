@@ -165,6 +165,7 @@ void generateLyrics(){
 				int indexOfRemoved;
 				int stressFailCount = 0;
 				int i = 0;
+				noMatchesLeft = false;
 
 				for (Word word : wordsArray) {
 					// Filter so we get only words with the number of syllables we're looking for, and omit punctuationn.
@@ -184,48 +185,10 @@ void generateLyrics(){
 						// Get desired starting index by taking number of syllables, subtracting how many spaces are left, then subtract one to get index
 						int startAtIndex = numberOfSyllablesPerLine - j;
 
-						boolean testPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
 						// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
-						//boolean fitsStressPattern = true; //testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
-						
-						println(i);
+						boolean fitsStressPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
 
-						if (i >= 3) {
-
-							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
-							for (int m = 0; m < filterWordResults.length; m++) {
-								
-								boolean matchesStresses = true;//testStressesAgaintPattern(filterWordResults[m],startAtIndex);
-								if (matchesStresses) {
-
-									if (currentLine != "") {
-										currentLine += " "; 					
-									}
-
-									currentLine += filterWordResults[i].value;
-
-									j -= filterWordResults[m].getSyllableCount();
-
-									indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[m]);
-
-									wordsArray.remove(indexOfRemoved);
-
-									// After systematically finding a word and adding it to the current line, break out of the loop
-									// By breaking out at this point, noMatchesLeft does not get set to true
-									break;
-								}
-								// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
-								
-								//noMatchesLeft = true;
-							}
-						
-							//currentLine += "BOSS";
-							//j = 0;
-							//break;
-
-						}
-
-						if (testPattern) {
+						if (i < 3 && fitsStressPattern) {
 
 							// Add space if current line is not empty (i.e., there is already at least one word in it)
 							if (currentLine != "") {
@@ -249,40 +212,52 @@ void generateLyrics(){
 
 							break;
 
+						} else if (i == 3) {
+
+							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
+							for (int m = 0; m < filterWordResults.length; m++) {
+								
+								boolean matchesStresses = true;//testStressesAgaintPattern(filterWordResults[m],startAtIndex);
+								if (matchesStresses) {
+
+									if (currentLine != "") {
+										currentLine += " "; 					
+									}
+
+									currentLine += filterWordResults[i].value;
+									int filteredLength = filterWordResults[m].getSyllableStresses().length;
+
+
+									// Test to see syllables
+									for (int k = 0; k < filteredLength; k++) {
+										currentLine += filterWordResults[m].getSyllableStresses()[k];
+									}
+									currentLine += "*****";
+
+									j -= filterWordResults[m].getSyllableCount();
+
+									indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[m]);
+
+									wordsArray.remove(indexOfRemoved);
+
+									// After systematically finding a word and adding it to the current line, break out of the loop
+									// By breaking out at this point, noMatchesLeft does not get set to true
+									break;
+								}
+								// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
+								
+								noMatchesLeft = true;
+							}
+
+						} else if (noMatchesLeft) {
+							currentLine += "BOSS";
+							j = 0;
+							break;
 						}
 
 						i++;
 
 					} while (i < 4);
-
-					// if (stressFailCount == 3) {
-						
-					// 	// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
-					// 	for (int i = 0; i < filterWordResults.length; i++) {
-							
-					// 		boolean matchesStresses = testStressesAgaintPattern(filterWordResults[i],startAtIndex);
-					// 		if (matchesStresses) {
-
-					// 			if (currentLine != "") {
-					// 				currentLine += " "; 					
-					// 			}
-
-					// 			currentLine += filterWordResults[i].value;
-
-					// 			j -= filterWordResults[i].getSyllableCount();
-
-					// 			indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[i]);
-
-					// 			wordsArray.remove(indexOfRemoved);
-
-					// 			// After systematically finding a word and adding it to the current line, break out of the loop
-					// 			// By breaking out at this point, noMatchesLeft does not get set to true
-					// 			break;
-					// 		}
-					// 		// If it still can't find any matches, that means that there are none. Set var "no matches left" to true. 
-							
-					// 		//noMatchesLeft = true;
-					// 	}
 
 				}
 
