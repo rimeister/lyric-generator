@@ -135,7 +135,12 @@ void generateLyrics(){
 			
 			Word currentWord = new Word(currentWordValue,y);
 			wordsArray.add(currentWord);
-			println("The word is \"" + currentWord.value + "\". The first stress in this word is " + currentWord.getSyllableStresses()[0]);
+
+			print("The word \"" + currentWord.value + "\" has these stresses: ");
+			for (int i = 0; i < currentWord.getSyllableStresses().length; i++) {
+				print(" " + currentWord.getSyllableStresses()[i]);
+			}
+			print("\n");
 			
 		}
 		
