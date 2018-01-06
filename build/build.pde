@@ -146,7 +146,7 @@ void generateLyrics(){
 				if (filterWordResults.length > 0) {
 
 
-					do {
+					//do {
 						// Get a random index value based on the length of the results array
 						randomIndex = int( random(filterWordResults.length) );
 						
@@ -156,7 +156,7 @@ void generateLyrics(){
 						// Run function to see if current word matches the stress arrangement we're looking for. Returns 'true' if it does.
 						boolean fitsStressPattern = testStressesAgaintPattern(filterWordResults[randomIndex],startAtIndex);
 
-						if (i < 3 && fitsStressPattern) {
+						if (i < 2 && fitsStressPattern) {
 
 							// Add space if current line is not empty (i.e., there is already at least one word in it)
 							if (currentLine != "") {
@@ -172,7 +172,7 @@ void generateLyrics(){
 								currentLine += filterWordResults[randomIndex].stresses[k];
 							}
 							
-							j--;
+							j -= filterWordResults[randomIndex].syllablecount;
 
 							indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[randomIndex]);
 
@@ -180,7 +180,9 @@ void generateLyrics(){
 
 							break;
 
-						} else if (i == 3 ) {
+						}
+
+						if (i == 2 ) {
 
 							// If it fails to randomly find a match three times, systematically search all words of appropriate syllable length until you find one
 							for (int m = 0; m < filterWordResults.length; m++) {
@@ -203,9 +205,10 @@ void generateLyrics(){
 									for (int k = 0; k < filteredLength; k++) {
 										currentLine += filterWordResults[m].stresses[k];
 									}
+
 									currentLine += "*****";
 
-									j--;
+									j -= filterWordResults[m].syllablecount;
 
 									indexOfRemoved = getIndexOfRemoved(wordsArray,filterWordResults[m]);
 
@@ -218,18 +221,20 @@ void generateLyrics(){
 								
 							}
 
-						} else if (i > 3) {
+						}
+
+						if (i >= 3) {
 							currentLine += "BOSS";
 							j = 0;
 							break;
 						}
 
-						i++;
+						//i++; */
 
-					} while (i < 3);
+					//} while (i < 3);
 
 				}
-				j--;
+
 			}
 
 			// Add "\n" to end of current line using "currentLine += '\n' "
