@@ -150,7 +150,6 @@ void generateLyrics(){
 						currentLine += " "; 					
 					}
 
-					println(wordToAdd.value);
 					j -= wordToAdd.syllablecount;
 
 				}
@@ -339,7 +338,6 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
 	if (!resultFoundRandomly && !resultFoundSystematically) {
 
 		//j -= foundSyllableCount;
-		//println("Found : "+foundSyllableCount );
 
 	}
 
