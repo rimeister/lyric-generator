@@ -132,6 +132,7 @@ void generateLyrics(){
 				int startAtIndex = numberOfSyllablesPerLine - j;
 
 				for (Word word : wordsArray) {
+
 					// Filter so we get only words with the number of syllables we're looking for, and omit punctuationn.
 					if ( word.syllablecount <= j && !RiTa.isPunctuation(word.value) ) {
 						filterWordResults = (Word[]) append(filterWordResults, word);
@@ -143,9 +144,19 @@ void generateLyrics(){
 
 					// function that searches through results array and returns a word that matches stress pattern goes here
 					Word wordToAdd = findWordThatMatchesStressPattern(filterWordResults, startAtIndex);
-					//currentLine += wordToAdd;
+					currentLine += wordToAdd.value;
+
+					// Test to see syllables
+					for (int k = 0; k < wordToAdd.stresses.length; k++) {
+						currentLine += wordToAdd.stresses[k];
+					}
+
+					if (currentLine != "") {
+						currentLine += " "; 					
+					}
+
 					println(wordToAdd.value);
-					j -= wordToAdd.syllablecount;;
+					j -= wordToAdd.syllablecount;
 
 				}
 
@@ -308,10 +319,7 @@ Word findWordThatMatchesStressPattern(Word[] wordsToFilter, int startingIndex) {
 				//currentLine += wordsToFilter[i];
 				int filteredLength = wordsToFilter[m].stresses.length;
 
-				// Test to see syllables
-				/* for (int k = 0; k < filteredLength; k++) {
-					currentLine += wordsToFilter[m].stresses[k];
-				}*/
+
 				//currentLine += "*****";
 
 				//foundSyllableCount = wordsToFilter[m].syllablecount;
