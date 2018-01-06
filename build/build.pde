@@ -146,11 +146,6 @@ void generateLyrics(){
 					Word wordToAdd = findWordThatMatchesStressPattern(filterWordResults, startAtIndex);
 					currentLine += wordToAdd.value;
 
-					// Test to see syllables
-					for (int k = 0; k < wordToAdd.stresses.length; k++) {
-						currentLine += wordToAdd.stresses[k];
-					}
-
 					if (currentLine != "") {
 						currentLine += " "; 					
 					}
